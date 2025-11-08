@@ -3,7 +3,20 @@ import logo from './assets/markabinet-logo.png';
 
 // Modal Component for Book a Demo
 const BookDemoModal = ({ isOpen, onClose }) => {
+  const [iframeLoaded, setIframeLoaded] = useState(false);
+  const [iframeError, setIframeError] = useState(false);
+
   if (!isOpen) return null;
+
+  const handleIframeLoad = () => {
+    setIframeLoaded(true);
+    setIframeError(false);
+  };
+
+  const handleIframeError = () => {
+    setIframeError(true);
+    setIframeLoaded(false);
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -31,16 +44,74 @@ const BookDemoModal = ({ isOpen, onClose }) => {
           </button>
         </div>
         
-        {/* Calendly Embed */}
+        {/* Zoho Booking Calendar Embed */}
         <div className="flex-1 p-4">
-          <iframe
-            src="https://calendly.com/jainsujal2001/30min?embed_domain=localhost&embed_type=Inline"
-            width="100%"
-            height="100%"
-            frameBorder="0"
-            title="Schedule Demo"
-            className="rounded-lg"
-          ></iframe>
+          <div className="w-full h-full flex items-center justify-center">
+            {/* Loading indicator */}
+            {!iframeLoaded && !iframeError && (
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-50 rounded-lg">
+                <div className="text-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-markabinet-600 mx-auto mb-2"></div>
+                  <p className="text-gray-600">Loading calendar...</p>
+                </div>
+              </div>
+            )}
+            
+            {/* Error fallback */}
+            {iframeError && (
+              <div className="w-full h-full flex items-center justify-center bg-gray-50 rounded-lg">
+                <div className="text-center p-8">
+                  <div className="w-16 h-16 bg-markabinet-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg className="w-8 h-8 text-markabinet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Book Your Demo</h3>
+                  <p className="text-gray-600 mb-4">Let's schedule a personalized demo of Markabinet.ai for your institution.</p>
+                  <div className="space-y-3">
+                    <a 
+                      href="https://calendar.zoho.in/eventreqForm/zz0802123089e63700ac6d73b40ed116179bd618620a8bb8d8bf9e5219dcb38117a5b1ca37f6543a3273f79ef57a22d504b47c1a59?theme=0&l=en&tz=Asia%2FKolkata"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block bg-markabinet-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-markabinet-700 transition-colors"
+                    >
+                      Open Calendar in New Tab
+                    </a>
+                    <div className="text-sm text-gray-500">
+                      <p>Or contact Avichal Gupta directly:</p>
+                      <p className="mt-1">
+                        <a href="mailto:avichal.gupta@markabinet.com" className="text-markabinet-600 hover:underline">
+                          avichal.gupta@markabinet.com
+                        </a>
+                      </p>
+                      <p>
+                        <a href="tel:+918273000955" className="text-markabinet-600 hover:underline">
+                          +91 8273 000 955
+                        </a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            <iframe
+              src="https://calendar.zoho.in/eventreqForm/zz0802123089e63700ac6d73b40ed116179bd618620a8bb8d8bf9e5219dcb38117a5b1ca37f6543a3273f79ef57a22d504b47c1a59?theme=0&l=en&tz=Asia%2FKolkata"
+              title="avichal.gupta"
+              frameBorder="0"
+              scrolling="no"
+              marginWidth="0"
+              border="0px"
+              marginHeight="0"
+              height="350px"
+              width="432px"
+              allowTransparency="true"
+              align="center"
+              onLoad={handleIframeLoad}
+              onError={handleIframeError}
+              className={`rounded-lg mx-auto ${!iframeLoaded ? 'invisible' : 'visible'}`}
+            ></iframe>
+          </div>
         </div>
       </div>
     </div>
@@ -253,9 +324,8 @@ const Hero = ({ onBookDemo }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-            Built for Colleges. Designed for Humans.{' '}
             <span className="bg-gradient-to-r from-markabinet-600 to-purple-600 bg-clip-text text-transparent">
-              Powered by AI
+              Where Student Journeys Meet Smart Automation
             </span>
           </h1>
           <p className="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed max-w-3xl mx-auto">
